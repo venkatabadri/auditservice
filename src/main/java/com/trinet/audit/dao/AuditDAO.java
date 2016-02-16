@@ -7,7 +7,8 @@ import com.trinet.audit.core.AuditReport;
 import com.trinet.audit.core.AuditResponse;
 
 public interface AuditDAO {
-	public AuditResponse save(List<AuditEvent> auditTrail);
-	public AuditReport queryAudit(List<AuditEvent> auditTrail);
-
+    public AuditResponse save(List<AuditEvent> auditTrail);
+    
+    public AuditReport queryAudit(List<AuditEvent> auditTrail);
+    
 }

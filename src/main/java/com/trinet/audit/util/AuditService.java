@@ -8,11 +8,10 @@ import com.trinet.audit.dao.AuditDAO;
 
 public class AuditService {
     private static AuditDAO auditDAO;
-	
-	public static AuditResponse  audit(List<AuditEvent> auditTrail){
-				
-		return ( auditDAO).save(auditTrail);
-	}
-
-
+    
+    public static AuditResponse audit(List<AuditEvent> auditTrail) {
+        
+        return (auditDAO).save(auditTrail);
+    }
+    
 }

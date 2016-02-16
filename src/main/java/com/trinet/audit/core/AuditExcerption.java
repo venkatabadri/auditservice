@@ -1,6 +1,5 @@
 package com.trinet.audit.core;
 
-public class AuditExcerption extends RuntimeException{
-	
+public class AuditExcerption extends RuntimeException {
 
 }
