@@ -12,6 +12,11 @@ import com.trinet.audit.entity.Audit;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
+/**
+ * Audit service api methods
+ * @author laxmi_pabbaraju
+ *
+ */
 @Service
 public class GenericAuditService implements AuditService {
 
@@ -26,6 +31,9 @@ public class GenericAuditService implements AuditService {
         this.auditDAO = auditDAO;
     }
 
+    /**
+     * inserting audit data to nosql
+     */
     @Override
     public AuditResponse insertAuditDocument(Audit audit) {
         LOGGER.info("Inside insertAuditDocument ...");
@@ -34,10 +42,23 @@ public class GenericAuditService implements AuditService {
         return auditResponse;
     }
 
+    /**
+     * Retrieving  all audit data using query parameter
+     */
     @Override
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) {
         LOGGER.info("Inside queryAuditDocument ...");
         AuditReport auditReport = auditDAO.queryAuditDocument(null);
+        return auditReport;
+    }
+
+    /**
+     * Retrieving audit data using query parameter or by id
+     */
+    @Override
+    public AuditReport findById(Map<String, String> auditQueryInputMap) {
+        LOGGER.info("Inside findById ...");
+        AuditReport auditReport = auditDAO.findById(auditQueryInputMap);
         return auditReport;
     }
 

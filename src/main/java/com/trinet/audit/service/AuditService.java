@@ -14,8 +14,12 @@ import com.trinet.audit.response.AuditResponse;
  */
 public interface AuditService {
 
+    
     public AuditResponse insertAuditDocument(Audit audit);
 
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap);
+    
+    public AuditReport findById(Map<String, String> auditQueryInputMap);
+
 
 }

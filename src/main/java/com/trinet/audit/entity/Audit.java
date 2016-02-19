@@ -7,14 +7,13 @@ import org.springframework.data.annotation.Id;
 
 /**
  * 
- * @author laxmi_pabbaraju
- * Audit object which represents Who,When and Where part
+ * @author laxmi_pabbaraju Audit object which represents Who,When and Where part
  *         of the audit.
  */
 public class Audit implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     private String auditId;
     private String employeeId;
@@ -35,8 +34,6 @@ public class Audit implements Serializable {
     private String comment;
     private JSONObject request;
     private JSONObject response;
-
-   
 
     public String getAuditId() {
         return auditId;
@@ -174,12 +171,8 @@ public class Audit implements Serializable {
         this.comment = comment;
     }
 
-    public JSONObject getRequest() {
+    public Object getRequest() {
         return request;
-    }
-
-    public void setRequest(JSONObject request) {
-        this.request = request;
     }
 
     public JSONObject getResponse() {
@@ -188,6 +181,10 @@ public class Audit implements Serializable {
 
     public void setResponse(JSONObject response) {
         this.response = response;
+    }
+
+    public void setRequest(JSONObject request) {
+        this.request = request;
     }
 
 }

@@ -27,4 +27,11 @@ public interface AuditDAO {
      */
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap);
 
+    /**
+     * find audit data by id
+     * @param auditQueryInputMap
+     * @return
+     */
+    public AuditReport findById(Map<String, String> auditQueryInputMap);
+
 }

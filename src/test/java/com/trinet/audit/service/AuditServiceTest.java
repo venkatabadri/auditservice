@@ -1,6 +1,9 @@
 package com.trinet.audit.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.junit.Before;
@@ -10,7 +13,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.trinet.audit.TrinetAuditApplication;
 import com.trinet.audit.entity.Audit;
@@ -18,14 +20,13 @@ import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
 /**
- * Test case to test the audit service
+ * Test case to test the audit service api
  * 
  * @author laxmi_pabbaraju
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TrinetAuditApplication.class)
-@WebAppConfiguration
 public class AuditServiceTest {
 
     @Autowired
@@ -40,25 +41,33 @@ public class AuditServiceTest {
     @Test
     public void insertAuditDocumentTest() {
 
-        AuditResponse auditResponse = auditService.insertAuditDocument(getAuditObject());
+        AuditResponse auditResponse = auditService.insertAuditDocument(createAuditObject());
         assertTrue(auditResponse.getStatusCode().equals("200"));
         assertNull(auditResponse.getAuditException());
 
     }
-    
+
     @Test
     public void getAuditsTest() {
 
         AuditReport auditReport = auditService.queryAuditDocument(null);
-        assertTrue(auditReport!=null);
-       
+        assertTrue(auditReport != null);
 
     }
 
-    private Audit getAuditObject() {
+    @Test
+    public void getAuditByIdTest() {
+
+        HashMap<String,String> queryMap = new HashMap<String,String>();
+        queryMap.put("auditId", "56c6dafd2a872ff061ffc022");
+        AuditReport auditReport = auditService.findById(queryMap);
+        assertTrue(auditReport != null);
+
+    }
+
+    private Audit createAuditObject() {
 
         Audit audit = new Audit();
-       /* audit.setAuditId(1001L);*/
         audit.setEmployeeId("10713");
         audit.setCompanyId("PSl1");
         audit.setProxyEmployeeId("1234");
@@ -76,22 +85,22 @@ public class AuditServiceTest {
         audit.setEventType("CREATE");
         audit.setComment("Testing Audit");
 
-        JSONObject jsonObjectReq = new JSONObject();
-        jsonObjectReq.put("empId", "7970");
-        jsonObjectReq.put("empName", "Nagu");
-        jsonObjectReq.put("age", 30);
-        jsonObjectReq.put("salary", "12000");
-        jsonObjectReq.put("designation", "Engineer");
-        jsonObjectReq.put("manager", "Jhon");
-        jsonObjectReq.put("location", "Pune");
-        
-        audit.setRequest(jsonObjectReq);
-        
-        JSONObject jsonObjectRsp = new JSONObject();
-        jsonObjectRsp.put("statuscode","200");
-        jsonObjectRsp.put("status","success");
+         JSONObject jsonRequest = new JSONObject();
+         jsonRequest.put("empId", "7970");
+         jsonRequest.put("empName", "Nagu");
+         jsonRequest.put("age", "30");
+         jsonRequest.put("salary", "12000");
+         jsonRequest.put("designation", "Engineer");
+         jsonRequest.put("manager", "Jhon");
+         jsonRequest.put("location", "Pune");
 
-        audit.setResponse(jsonObjectRsp);
+        audit.setRequest(jsonRequest);
+
+        JSONObject jsonResponse = new JSONObject();
+        jsonRequest.put("statuscode", "200");
+        jsonRequest.put("status", "success");
+
+        audit.setResponse(jsonRequest);
         return audit;
     }
 

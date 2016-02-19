@@ -1,15 +1,16 @@
 package com.trinet.audit.dao;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trinet.audit.entity.Audit;
 import com.trinet.audit.repository.AuditRepository;
 import com.trinet.audit.response.AuditReport;
@@ -54,21 +55,61 @@ public class AuditDAOImpl implements AuditDAO {
     @Override
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) {
 
-        List<Audit> events = auditRepository.findAll();
+        List<Audit> events = null;
         AuditReport auditReport = new AuditReport();
-        auditReport.setMessage("SUCCESS");
-        auditReport.setStatusCode("200");
-        
         ObjectMapper mapperObj = new ObjectMapper();
         String jsonStr = "";
         try {
-            jsonStr = mapperObj.writeValueAsString(events);
-            LOGGER.info("Response from Audit service ::" + jsonStr);
+
+            if (auditQueryInputMap == null) {
+                events = auditRepository.findAll();
+                auditReport.setMessage("SUCCESS");
+                auditReport.setStatusCode("200");
+                jsonStr = mapperObj.writeValueAsString(events);
+                LOGGER.info("Response from Audit service ::" + jsonStr);
+                auditReport.setResult(jsonStr);
+
+            }
         } catch (JsonProcessingException e) {
             LOGGER.error(e.getMessage());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        auditReport.setResult(jsonStr);
+
         return auditReport;
     }
 
+    /**
+     * get the audit details by specified id  in the query map
+     */
+    @Override
+    public AuditReport findById(Map<String, String> auditQueryInputMap) {
+       Audit audit = null;
+        AuditReport auditReport = new AuditReport();
+        ObjectMapper mapperObj = new ObjectMapper();
+        String jsonStr = "";
+        try {
+
+            if (auditQueryInputMap != null) {
+                audit = auditRepository.findOne(auditQueryInputMap.get("auditId"));
+                auditReport.setMessage("SUCCESS");
+                auditReport.setStatusCode("200");
+                jsonStr = mapperObj.writeValueAsString(audit);
+                LOGGER.info("Audit details retrieved  ::" + jsonStr);
+                auditReport.setResult(jsonStr);
+
+            }
+        } catch (JsonProcessingException e) {
+            LOGGER.error(e.getMessage());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return auditReport;
+    }
+
+    
+    
 }
