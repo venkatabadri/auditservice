@@ -1,22 +1,21 @@
 package com.trinet.audit.service;
 
-import java.util.List;
 import java.util.Map;
 
-import com.trinet.audit.entity.AuditEvent;
+import com.trinet.audit.entity.Audit;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
 /**
- * Audit Service used for audit trails
+ * An interface to access audit service api
  * 
  * @author laxmi_pabbaraju
  *
  */
 public interface AuditService {
 
-    public AuditResponse insertAuditDocument(List<AuditEvent> auditTrail);
+    public AuditResponse insertAuditDocument(Audit audit);
 
-    public AuditReport queryAuditDocument(Map auditQueryInputMap);
+    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap);
 
 }

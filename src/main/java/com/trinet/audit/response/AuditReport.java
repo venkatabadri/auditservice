@@ -1,21 +1,38 @@
 package com.trinet.audit.response;
 
-import java.util.List;
-import java.util.Map;
-
 /*
  * This class  is used for reporting audit data .
  */
 public class AuditReport {
 
-	private List<Map<String,String>> data;
+    private String statusCode;
 
-	public List<Map<String, String>> getData() {
-		return data;
-	}
+    private String message;
 
-	public void setData(List<Map<String, String>> data) {
-		this.data = data;
-	}
-	
+    private String result;
+
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
 }

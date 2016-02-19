@@ -1,19 +1,30 @@
 package com.trinet.audit.dao;
 
-import java.util.List;
+import java.util.Map;
 
-import com.trinet.audit.entity.AuditEvent;
+import com.trinet.audit.entity.Audit;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
 /**
- * @author laxmi_pabbaraju
- *
+ * @author laxmi_pabbaraju An interface used by AuditService
  */
 public interface AuditDAO {
 
-    public AuditResponse insertAuditDocument(List<AuditEvent> auditEvents);
+    /**
+     * saving audit details
+     * 
+     * @param audit
+     * @return
+     */
+    public AuditResponse insertAuditDocument(Audit audit);
 
-    public AuditReport queryAuditDocument(List<AuditEvent> auditEvents);
+    /**
+     * Retrieving audit details based on the query parameters
+     * 
+     * @param auditQueryInputMap
+     * @return
+     */
+    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap);
 
 }
