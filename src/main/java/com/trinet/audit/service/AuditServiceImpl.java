@@ -15,6 +15,7 @@ import com.trinet.audit.response.AuditResponse;
 
 /**
  * Audit service Implementation
+ * 
  * @author laxmi_pabbaraju
  *
  */
@@ -34,10 +35,11 @@ public class AuditServiceImpl implements AuditService {
 
     /**
      * Inserting audit data to nosql
-     * @throws AuditException 
+     * 
+     * @throws AuditException
      */
     @Override
-    public AuditResponse insertAuditDocument(Audit audit) throws AuditException  {
+    public AuditResponse insertAuditDocument(Audit audit) throws AuditException {
         LOGGER.info("Inside insertAuditDocument ...");
         AuditResponse auditResponse = auditDAO.insertAuditDocument(audit);
         LOGGER.info("AuditService Response .. " + auditResponse);
@@ -45,8 +47,9 @@ public class AuditServiceImpl implements AuditService {
     }
 
     /**
-     * Retrieving  all audit data using query parameter
-     * @throws AuditException 
+     * Retrieving all audit data using query parameter
+     * 
+     * @throws AuditException
      */
     @Override
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException {

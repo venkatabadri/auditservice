@@ -82,11 +82,11 @@ public class AuditDAOImpl implements AuditDAO {
     }
 
     /**
-     * get the audit details by specified id  in the query map
+     * get the audit details by specified id in the query map
      */
     @Override
     public AuditReport findById(Map<String, String> auditQueryInputMap) {
-       Audit audit = null;
+        Audit audit = null;
         AuditReport auditReport = new AuditReport();
         ObjectMapper mapperObj = new ObjectMapper();
         String jsonStr = "";
@@ -111,6 +111,4 @@ public class AuditDAOImpl implements AuditDAO {
         return auditReport;
     }
 
-    
-    
 }

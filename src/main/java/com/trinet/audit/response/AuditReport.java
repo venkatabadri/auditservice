@@ -11,7 +11,7 @@ public class AuditReport {
     /* The status message */
     private String message;
 
-    /* the result  of response  data */
+    /* the result of response data */
     private String result;
 
     public String getStatusCode() {

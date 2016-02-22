@@ -8,9 +8,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = TrinetAuditApplication.class)
 public class TrinetAuditApplicationTests {
-    
+
     @Test
     public void contextLoads() {
     }
-    
+
 }

@@ -15,12 +15,10 @@ import com.trinet.audit.response.AuditResponse;
  */
 public interface AuditService {
 
-    
     public AuditResponse insertAuditDocument(Audit audit) throws AuditException;
 
-    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap)throws AuditException;
-    
-    public AuditReport findById(Map<String, String> auditQueryInputMap) throws AuditException;
+    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException;
 
+    public AuditReport findById(Map<String, String> auditQueryInputMap) throws AuditException;
 
 }

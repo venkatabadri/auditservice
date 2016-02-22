@@ -26,10 +26,11 @@ public interface AuditDAO {
      * @param auditQueryInputMap
      * @return
      */
-    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap)  throws AuditException;
+    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException;
 
     /**
      * find audit data by id
+     * 
      * @param auditQueryInputMap
      * @return
      */
