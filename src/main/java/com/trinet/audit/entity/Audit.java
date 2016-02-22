@@ -15,6 +15,7 @@ public class Audit implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    /** the unique id */
     private String auditId;
     private String employeeId;
     private String companyId;

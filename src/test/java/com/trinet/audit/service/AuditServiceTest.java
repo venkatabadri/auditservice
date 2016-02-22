@@ -16,8 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.trinet.audit.TrinetAuditApplication;
 import com.trinet.audit.entity.Audit;
+import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
+import com.trinet.audit.util.ServiceConstants;
 
 /**
  * Test case to test the audit service api
@@ -30,7 +32,7 @@ import com.trinet.audit.response.AuditResponse;
 public class AuditServiceTest {
 
     @Autowired
-    private AuditService auditService;
+    AuditService auditService;
 
     @Before
     public void setup() {
@@ -39,29 +41,30 @@ public class AuditServiceTest {
     }
 
     @Test
-    public void insertAuditDocumentTest() {
+    public void insertAuditDocumentTest() throws AuditException {
 
         AuditResponse auditResponse = auditService.insertAuditDocument(createAuditObject());
         assertTrue(auditResponse.getStatusCode().equals("200"));
-        assertNull(auditResponse.getAuditException());
+        assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
     }
 
     @Test
-    public void getAuditsTest() {
+    public void getAuditsTest() throws AuditException {
 
         AuditReport auditReport = auditService.queryAuditDocument(null);
         assertTrue(auditReport != null);
-
+        assertTrue(auditReport.getMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
     }
 
     @Test
-    public void getAuditByIdTest() {
+    public void getAuditByIdTest() throws AuditException {
 
-        HashMap<String,String> queryMap = new HashMap<String,String>();
+        HashMap<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("auditId", "56c6dafd2a872ff061ffc022");
         AuditReport auditReport = auditService.findById(queryMap);
         assertTrue(auditReport != null);
+        assertTrue(auditReport.getMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
     }
 
@@ -85,14 +88,14 @@ public class AuditServiceTest {
         audit.setEventType("CREATE");
         audit.setComment("Testing Audit");
 
-         JSONObject jsonRequest = new JSONObject();
-         jsonRequest.put("empId", "7970");
-         jsonRequest.put("empName", "Nagu");
-         jsonRequest.put("age", "30");
-         jsonRequest.put("salary", "12000");
-         jsonRequest.put("designation", "Engineer");
-         jsonRequest.put("manager", "Jhon");
-         jsonRequest.put("location", "Pune");
+        JSONObject jsonRequest = new JSONObject();
+        jsonRequest.put("empId", "7970");
+        jsonRequest.put("empName", "Nagu");
+        jsonRequest.put("age", "30");
+        jsonRequest.put("salary", "12000");
+        jsonRequest.put("designation", "Engineer");
+        jsonRequest.put("manager", "Jhon");
+        jsonRequest.put("location", "Pune");
 
         audit.setRequest(jsonRequest);
 

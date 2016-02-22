@@ -9,18 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.trinet.audit.dao.AuditDAO;
 import com.trinet.audit.entity.Audit;
+import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
 /**
- * Audit service api methods
+ * Audit service Implementation
  * @author laxmi_pabbaraju
  *
  */
 @Service
-public class GenericAuditService implements AuditService {
+public class AuditServiceImpl implements AuditService {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(GenericAuditService.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class);
     /**
      * the dao object
      */
@@ -32,10 +33,11 @@ public class GenericAuditService implements AuditService {
     }
 
     /**
-     * inserting audit data to nosql
+     * Inserting audit data to nosql
+     * @throws AuditException 
      */
     @Override
-    public AuditResponse insertAuditDocument(Audit audit) {
+    public AuditResponse insertAuditDocument(Audit audit) throws AuditException  {
         LOGGER.info("Inside insertAuditDocument ...");
         AuditResponse auditResponse = auditDAO.insertAuditDocument(audit);
         LOGGER.info("AuditService Response .. " + auditResponse);
@@ -44,9 +46,10 @@ public class GenericAuditService implements AuditService {
 
     /**
      * Retrieving  all audit data using query parameter
+     * @throws AuditException 
      */
     @Override
-    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) {
+    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException {
         LOGGER.info("Inside queryAuditDocument ...");
         AuditReport auditReport = auditDAO.queryAuditDocument(null);
         return auditReport;

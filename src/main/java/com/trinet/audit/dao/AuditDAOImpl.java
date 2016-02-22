@@ -15,6 +15,7 @@ import com.trinet.audit.entity.Audit;
 import com.trinet.audit.repository.AuditRepository;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
+import com.trinet.audit.util.ServiceConstants;
 
 /*
  * DAO Implementer class for auditDao.
@@ -45,7 +46,7 @@ public class AuditDAOImpl implements AuditDAO {
         auditRepository.save(audit);
         AuditResponse auditResponse = new AuditResponse();
         auditResponse.setStatusCode("200");
-        auditResponse.setAuditException(null);
+        auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
         return auditResponse;
     }
 
@@ -63,7 +64,7 @@ public class AuditDAOImpl implements AuditDAO {
 
             if (auditQueryInputMap == null) {
                 events = auditRepository.findAll();
-                auditReport.setMessage("SUCCESS");
+                auditReport.setMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                 auditReport.setStatusCode("200");
                 jsonStr = mapperObj.writeValueAsString(events);
                 LOGGER.info("Response from Audit service ::" + jsonStr);
@@ -93,7 +94,7 @@ public class AuditDAOImpl implements AuditDAO {
 
             if (auditQueryInputMap != null) {
                 audit = auditRepository.findOne(auditQueryInputMap.get("auditId"));
-                auditReport.setMessage("SUCCESS");
+                auditReport.setMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                 auditReport.setStatusCode("200");
                 jsonStr = mapperObj.writeValueAsString(audit);
                 LOGGER.info("Audit details retrieved  ::" + jsonStr);
