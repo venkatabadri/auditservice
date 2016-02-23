@@ -23,13 +23,13 @@ import com.trinet.audit.util.ServiceConstants;
 @Repository
 public class AuditMongoDAO implements AuditDAO {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(AuditMongoDAO.class);
+    /* LoggerFactory instance */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditMongoDAO.class);
 
+    /* Repository for audit */
     @Autowired
     private AuditMongoRepository audiMomgotRepository;
 
- 
-   
     public void setAuditRepository(AuditMongoRepository auditRepository) {
         this.audiMomgotRepository = auditRepository;
     }
@@ -70,10 +70,9 @@ public class AuditMongoDAO implements AuditDAO {
 
             }
         } catch (JsonProcessingException e) {
-            LOGGER.error(e.getMessage());
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.info(e.getMessage(), e);
+        } catch (Exception e) {
+            LOGGER.info(e.getMessage(), e);
         }
 
         return auditReport;
@@ -100,10 +99,9 @@ public class AuditMongoDAO implements AuditDAO {
 
             }
         } catch (JsonProcessingException e) {
-            LOGGER.error(e.getMessage());
+            LOGGER.info(e.getMessage(), e);
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOGGER.info(e.getMessage(), e);
         }
 
         return auditReport;

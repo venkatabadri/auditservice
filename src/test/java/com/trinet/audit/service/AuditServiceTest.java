@@ -3,6 +3,9 @@ package com.trinet.audit.service;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 import org.json.simple.JSONObject;
 import org.junit.Before;
@@ -43,7 +46,7 @@ public class AuditServiceTest {
     public void insertAuditDocumentTest() throws AuditException {
 
         AuditResponse auditResponse = auditService.insertAuditDocument(createAuditObject());
-        assertTrue(auditResponse.getStatusCode().equals("200"));
+        assertTrue("200".equals(auditResponse.getStatusCode()));
         assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
     }
@@ -59,12 +62,20 @@ public class AuditServiceTest {
     @Test
     public void getAuditByIdTest() throws AuditException {
 
-        HashMap<String, String> queryMap = new HashMap<String, String>();
+        Map<String, String> queryMap = new HashMap<String, String>();
         queryMap.put("auditId", "56c6dafd2a872ff061ffc022");
         AuditReport auditReport = auditService.findById(queryMap);
         assertTrue(auditReport != null);
         assertTrue(auditReport.getMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
+    }
+
+    @Test
+    public void getAuditByIdFailTest() throws AuditException {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("auditId", "123");
+        AuditReport auditReport = auditService.findById(queryMap);
+        assertNull(auditReport);
     }
 
     private Audit createAuditObject() {
@@ -95,14 +106,12 @@ public class AuditServiceTest {
         jsonRequest.put("designation", "Engineer");
         jsonRequest.put("manager", "Jhon");
         jsonRequest.put("location", "Pune");
-
         audit.setRequest(jsonRequest);
 
         JSONObject jsonResponse = new JSONObject();
         jsonRequest.put("statuscode", "200");
-        jsonRequest.put("status", "success");
-
-        audit.setResponse(jsonRequest);
+        jsonRequest.put("status", ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+        audit.setResponse(jsonResponse);
         return audit;
     }
 

@@ -12,8 +12,7 @@ import org.springframework.data.annotation.Id;
  */
 public class Audit implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = -2415237474831808076L;
     @Id
     /** the unique id */
     private String auditId;

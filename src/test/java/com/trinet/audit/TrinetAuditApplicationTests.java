@@ -11,6 +11,7 @@ public class TrinetAuditApplicationTests {
 
     @Test
     public void contextLoads() {
+        // Do nothing because we don't have controller
     }
 
 }

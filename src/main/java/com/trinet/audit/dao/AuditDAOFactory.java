@@ -9,16 +9,12 @@ import com.trinet.audit.util.ServiceConstants;
  *
  */
 public class AuditDAOFactory {
-   /**
-    * 
-    */
+   
     @Autowired
     private AuditMongoDAO mongoAuditDAO; 
   
     
-    //@Autowired
-   // private AuditCassandaraDAO auditCassandaraDAO; 
-  
+    
     /**
      * 
      * @param daoType

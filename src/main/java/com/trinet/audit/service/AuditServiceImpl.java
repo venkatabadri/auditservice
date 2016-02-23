@@ -22,10 +22,10 @@ import com.trinet.audit.response.AuditResponse;
 @Service
 public class AuditServiceImpl implements AuditService {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class);
-    /**
-     * the dao object
-     */
+    /* Instance of Logger Factory */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class);
+   
+    /* The audit dao */
     private AuditDAO auditDAO;
 
     @Autowired
@@ -35,7 +35,6 @@ public class AuditServiceImpl implements AuditService {
 
     /**
      * Inserting audit data to nosql
-     * 
      * @throws AuditException
      */
     @Override
@@ -53,9 +52,8 @@ public class AuditServiceImpl implements AuditService {
      */
     @Override
     public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException {
-        LOGGER.info("Inside queryAuditDocument ...");
-        AuditReport auditReport = auditDAO.queryAuditDocument(null);
-        return auditReport;
+        LOGGER.info("Executing queryAuditDocument ...");
+        return  auditDAO.queryAuditDocument(null);
     }
 
     /**
@@ -63,9 +61,8 @@ public class AuditServiceImpl implements AuditService {
      */
     @Override
     public AuditReport findById(Map<String, String> auditQueryInputMap) {
-        LOGGER.info("Inside findById ...");
-        AuditReport auditReport = auditDAO.findById(auditQueryInputMap);
-        return auditReport;
+        LOGGER.info("Executing  findById ...");
+        return auditDAO.findById(auditQueryInputMap);
     }
 
 }
