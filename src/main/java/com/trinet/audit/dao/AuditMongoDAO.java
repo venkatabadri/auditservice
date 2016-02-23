@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.trinet.audit.entity.Audit;
-import com.trinet.audit.repository.AuditRepository;
+import com.trinet.audit.repository.AuditMongoRepository;
 import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.ServiceConstants;
@@ -21,19 +21,17 @@ import com.trinet.audit.util.ServiceConstants;
  * DAO Implementer class for auditDao.
  */
 @Repository
-public class AuditDAOImpl implements AuditDAO {
+public class AuditMongoDAO implements AuditDAO {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(AuditDAOImpl.class);
-
-    private AuditRepository auditRepository;
-
-    public AuditRepository getAuditRepository() {
-        return auditRepository;
-    }
+    private static Logger LOGGER = LoggerFactory.getLogger(AuditMongoDAO.class);
 
     @Autowired
-    public void setAuditRepository(AuditRepository auditRepository) {
-        this.auditRepository = auditRepository;
+    private AuditMongoRepository audiMomgotRepository;
+
+ 
+   
+    public void setAuditRepository(AuditMongoRepository auditRepository) {
+        this.audiMomgotRepository = auditRepository;
     }
 
     /**
@@ -43,7 +41,7 @@ public class AuditDAOImpl implements AuditDAO {
     @Override
     public AuditResponse insertAuditDocument(Audit audit) {
         LOGGER.info("Inserting audit document.....");
-        auditRepository.save(audit);
+        audiMomgotRepository.save(audit);
         AuditResponse auditResponse = new AuditResponse();
         auditResponse.setStatusCode("200");
         auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
@@ -63,7 +61,7 @@ public class AuditDAOImpl implements AuditDAO {
         try {
 
             if (auditQueryInputMap == null) {
-                events = auditRepository.findAll();
+                events = audiMomgotRepository.findAll();
                 auditReport.setMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                 auditReport.setStatusCode("200");
                 jsonStr = mapperObj.writeValueAsString(events);
@@ -93,7 +91,7 @@ public class AuditDAOImpl implements AuditDAO {
         try {
 
             if (auditQueryInputMap != null) {
-                audit = auditRepository.findOne(auditQueryInputMap.get("auditId"));
+                audit = audiMomgotRepository.findOne(auditQueryInputMap.get("auditId"));
                 auditReport.setMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                 auditReport.setStatusCode("200");
                 jsonStr = mapperObj.writeValueAsString(audit);

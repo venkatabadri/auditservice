@@ -8,6 +8,6 @@ import com.trinet.audit.entity.Audit;
  * @author laxmi_pabbaraju
  * 
  */
-public interface AuditRepository extends MongoRepository<Audit, String> {
+public interface AuditMongoRepository extends MongoRepository<Audit, String> {
 
 }
