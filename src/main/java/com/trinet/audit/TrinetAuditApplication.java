@@ -17,11 +17,8 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan("com.trinet.audit")
 @EnableAutoConfiguration
 public class TrinetAuditApplication {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TrinetAuditApplication.class);
-    
-    private TrinetAuditApplication() {
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(TrinetAuditApplication.class, args);

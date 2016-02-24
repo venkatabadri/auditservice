@@ -2,7 +2,6 @@ package com.trinet.audit.entity;
 
 import java.io.Serializable;
 
-import org.json.simple.JSONObject;
 import org.springframework.data.annotation.Id;
 
 /**
@@ -12,10 +11,12 @@ import org.springframework.data.annotation.Id;
  */
 public class Audit implements Serializable {
 
-    private static final long serialVersionUID = -2415237474831808076L;
-    @Id
+    private static final long serialVersionUID = 1L;
+
     /** the unique id */
+    @Id
     private String auditId;
+    private String auditTrailId;
     private String employeeId;
     private String companyId;
     private String proxyEmployeeId;
@@ -24,16 +25,31 @@ public class Audit implements Serializable {
     private String userIP;
     private String browserInfo;
     private String osInfo;
-    private String mobileInfo;
+    private String deviceInfo;
     private String environment;
     private String serverIP;
     private String application;
     private String feature;
-    private String businessObject;
-    private String eventType;
-    private String comment;
-    private JSONObject request;
-    private JSONObject response;
+    private String resource;
+    private String bizEvent;
+    private String method;
+    private String statusCode;
+    private String errorCode;
+    private String request;
+    private String response;
+    
+    
+
+    @Override
+    public String toString() {
+        return "Audit [auditId=" + auditId + " ||  auditTrailId=" + auditTrailId + " ||  employeeId=" + employeeId
+                + " ||  companyId=" + companyId + " ||  proxyEmployeeId=" + proxyEmployeeId + " ||  proxyCompanyId="
+                + proxyCompanyId + " ||  timeStamp=" + timeStamp + " ||  userIP=" + userIP + " ||  browserInfo=" + browserInfo
+                + " ||  osInfo=" + osInfo + " ||  deviceInfo=" + deviceInfo + " ||  environment=" + environment + " ||  serverIP="
+                + serverIP + " ||  application=" + application + " ||  feature=" + feature + " ||  resource=" + resource
+                + " ||  bizEvent=" + bizEvent + " ||  method=" + method + " ||  statusCode=" + statusCode + " ||  errorCode="
+                + errorCode + " ||  request=" + request + " ||  response=" + response + "]";
+    }
 
     public String getAuditId() {
         return auditId;
@@ -41,6 +57,14 @@ public class Audit implements Serializable {
 
     public void setAuditId(String auditId) {
         this.auditId = auditId;
+    }
+
+    public String getAuditTrailId() {
+        return auditTrailId;
+    }
+
+    public void setAuditTrailId(String auditTrailId) {
+        this.auditTrailId = auditTrailId;
     }
 
     public String getEmployeeId() {
@@ -107,12 +131,12 @@ public class Audit implements Serializable {
         this.osInfo = osInfo;
     }
 
-    public String getMobileInfo() {
-        return mobileInfo;
+    public String getDeviceInfo() {
+        return deviceInfo;
     }
 
-    public void setMobileInfo(String mobileInfo) {
-        this.mobileInfo = mobileInfo;
+    public void setDeviceInfo(String deviceInfo) {
+        this.deviceInfo = deviceInfo;
     }
 
     public String getEnvironment() {
@@ -147,44 +171,60 @@ public class Audit implements Serializable {
         this.feature = feature;
     }
 
-    public String getBusinessObject() {
-        return businessObject;
+    public String getResource() {
+        return resource;
     }
 
-    public void setBusinessObject(String businessObject) {
-        this.businessObject = businessObject;
+    public void setResource(String resource) {
+        this.resource = resource;
     }
 
-    public String getEventType() {
-        return eventType;
+    public String getBizEvent() {
+        return bizEvent;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public void setBizEvent(String bizEvent) {
+        this.bizEvent = bizEvent;
     }
 
-    public String getComment() {
-        return comment;
+    public String getMethod() {
+        return method;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMethod(String method) {
+        this.method = method;
     }
 
-    public Object getRequest() {
+    public String getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public String getRequest() {
         return request;
     }
 
-    public JSONObject getResponse() {
+    public void setRequest(String request) {
+        this.request = request;
+    }
+
+    public String getResponse() {
         return response;
     }
 
-    public void setResponse(JSONObject response) {
+    public void setResponse(String response) {
         this.response = response;
-    }
-
-    public void setRequest(JSONObject request) {
-        this.request = request;
     }
 
 }

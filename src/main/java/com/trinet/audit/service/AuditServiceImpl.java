@@ -1,7 +1,5 @@
 package com.trinet.audit.service;
 
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.trinet.audit.dao.AuditDAO;
 import com.trinet.audit.entity.Audit;
 import com.trinet.audit.exceptions.AuditException;
-import com.trinet.audit.response.AuditReport;
 import com.trinet.audit.response.AuditResponse;
 
 /**
@@ -24,7 +21,7 @@ public class AuditServiceImpl implements AuditService {
 
     /* Instance of Logger Factory */
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class);
-   
+
     /* The audit dao */
     private AuditDAO auditDAO;
 
@@ -35,6 +32,7 @@ public class AuditServiceImpl implements AuditService {
 
     /**
      * Inserting audit data to nosql
+     * 
      * @throws AuditException
      */
     @Override
@@ -44,25 +42,4 @@ public class AuditServiceImpl implements AuditService {
         LOGGER.info("AuditService Response .. " + auditResponse);
         return auditResponse;
     }
-
-    /**
-     * Retrieving all audit data using query parameter
-     * 
-     * @throws AuditException
-     */
-    @Override
-    public AuditReport queryAuditDocument(Map<String, String> auditQueryInputMap) throws AuditException {
-        LOGGER.info("Executing queryAuditDocument ...");
-        return  auditDAO.queryAuditDocument(null);
-    }
-
-    /**
-     * Retrieving audit data using query parameter or by id
-     */
-    @Override
-    public AuditReport findById(Map<String, String> auditQueryInputMap) {
-        LOGGER.info("Executing  findById ...");
-        return auditDAO.findById(auditQueryInputMap);
-    }
-
 }

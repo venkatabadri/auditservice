@@ -8,6 +8,11 @@ package com.trinet.audit.exceptions;
  */
 public class AuditException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 967033981824886178L;
+
     public AuditException() {
         super();
 
