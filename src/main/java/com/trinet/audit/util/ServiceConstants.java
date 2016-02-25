@@ -9,8 +9,10 @@ public final class ServiceConstants {
     public static final String MESSAGE_RESPONSE_SUCCESS = "Success";
 
     public static final String MESSAGE_RESPONSE_FAIL = "Fail";
-    
-    public static final String MONGO_DB="MongoDB";
-    
-    public static final String CASSANDRA_DB="CassandraDB";
+
+    public static final String STORAGE_TYPE_MONGO = "mongodb";
+
+    public static final String STORAGE_TYPE_FLATFILE = "file";
+
+    public static final String AUDIT_FILENAME = "auditlog.txt";
 }
