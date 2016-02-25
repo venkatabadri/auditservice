@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  * Spring Boot Application for Audit Service
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("com.trinet.audit")
 @EnableAutoConfiguration
+@ImportResource("trinet_audit.xml")
 public class TrinetAuditApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrinetAuditApplication.class);
