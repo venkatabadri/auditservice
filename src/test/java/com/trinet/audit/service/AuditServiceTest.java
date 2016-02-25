@@ -43,13 +43,23 @@ public class AuditServiceTest {
         assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
     }
+    
+    @Test
+    public void verifyAuditDocumentTest() throws AuditException {
+        Audit audit = createAuditObject();
+        audit.setCompanyId("");
+        AuditResponse auditResponse = auditService.insertAuditDocument(audit);
+        assertTrue("500".equals(auditResponse.getStatusCode()));
+        assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.AUDIT_FIELDVALIDATION_MSG));
+
+    }
 
     private Audit createAuditObject() {
 
         Audit audit = new Audit();
         
         audit.setAuditTrailId("AT456");
-        audit.setEmployeeId("10713");
+        audit.setEmployeeId("123456");
         audit.setCompanyId("PSl1");
         audit.setProxyEmployeeId("1234");
         audit.setProxyCompanyId("PSLHYD");

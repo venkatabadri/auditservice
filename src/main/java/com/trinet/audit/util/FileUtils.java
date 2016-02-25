@@ -8,6 +8,9 @@ import java.io.FileWriter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
+
+import com.trinet.audit.entity.Audit;
 
 /**
  * @author laxmi_pabbaraju
@@ -44,5 +47,12 @@ public class FileUtils {
 
             LOGGER.info(ex.getMessage(), ex);
         }
+    }
+
+    public static  boolean verifyAudit(Audit audit) {
+        if (audit != null) {
+            return StringUtils.isEmpty(audit.getCompanyId()) || StringUtils.isEmpty(audit.getEmployeeId());
+        }
+        return false;
     }
 }

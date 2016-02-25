@@ -30,6 +30,11 @@ public final class ServiceConstants {
      * Audit filename
      */
     public static final String AUDIT_FILENAME = "auditlog.txt";
+    
+    /**
+     * 
+     */
+    public static final String AUDIT_FIELDVALIDATION_MSG = "Insufficient input data for auditing.";
 
     private ServiceConstants() {
         super();

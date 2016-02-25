@@ -46,26 +46,36 @@ public class AuditServiceImpl implements AuditService {
      */
     @Override
     public AuditResponse insertAuditDocument(Audit audit) throws AuditException {
-        LOGGER.info("Executing  insertAuditDocument method ...");
-        LOGGER.info("The specified Storage Type  is .. " + storageType);
+
         AuditResponse auditResponse = null;
-        try {
-            if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
-                FileUtils.writeToFile(location, audit.toString());
-                auditResponse = new AuditResponse();
-                auditResponse.setStatusCode("200");
-                auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
-                LOGGER.info("Audit data stored in a file");
+        if (!FileUtils.verifyAudit(audit)) {
 
-            } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
-                auditResponse = auditDAO.insertAuditDocument(audit);
-                LOGGER.info("Audit data stored in a Mongo DB");
+            LOGGER.info("Executing  insertAuditDocument method ...");
+            LOGGER.info("The specified Storage Type  is .. " + storageType);
+            
+            try {
+                if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
+                    FileUtils.writeToFile(location, audit.toString());
+                    auditResponse = new AuditResponse();
+                    auditResponse.setStatusCode("200");
+                    auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+                    LOGGER.info("Audit data stored in a file");
 
+                } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
+                    auditResponse = auditDAO.insertAuditDocument(audit);
+                    LOGGER.info("Audit data stored in a Mongo DB");
+
+                }
+
+            } catch (Exception e) {
+                LOGGER.info(e.getMessage(), e);
             }
-
-        } catch (Exception e)
-        {
-            LOGGER.info(e.getMessage(), e);
+        } else {
+            auditResponse = new AuditResponse();
+            auditResponse.setStatusCode("500");
+            auditResponse.setStatusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
+            LOGGER.info("Insufficient input data for auditing. ...");
+            LOGGER.info(auditResponse.toString());
         }
 
         return auditResponse;
