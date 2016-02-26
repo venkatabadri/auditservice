@@ -33,11 +33,10 @@ public class AuditMongoDao implements AuditDao {
      */
     @Override
     public AuditResponse insertAuditDocument(Audit audit) {
-        LOGGER.info("Inserting audit document.....");
         audiMomgotRepository.save(audit);
         AuditResponse auditResponse = new AuditResponse();
-        auditResponse.setStatusCode("200");
-        auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+        auditResponse.set_statusCode("200");
+        auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
         return auditResponse;
     }
 }

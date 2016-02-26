@@ -7,35 +7,33 @@ package com.trinet.audit.response;
 public class AuditResponse {
 
     /* The status code of response data */
-    private String statusCode;
+    private String _statusCode;
 
     /* The status message of response data */
-    private String statusMessage;
+    private String _statusMessage;
 
     /* Get the status code of response */
-    public String getStatusCode() {
-        return statusCode;
+    public String get_statusCode() {
+        return _statusCode;
     }
 
     /* Set the status code of response */
-    public void setStatusCode(String statusCode) {
-        this.statusCode = statusCode;
+    public void set_statusCode(String _statusCode) {
+        this._statusCode = _statusCode;
     }
 
     /* Get the status message of response */
-    public String getStatusMessage() {
-        return statusMessage;
+    public String get_statusMessage() {
+        return _statusMessage;
     }
 
     /* Set the status message of response */
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
+    public void set_statusMessage(String _statusMessage) {
+        this._statusMessage = _statusMessage;
     }
 
-    /* String representation of object */
     @Override
     public String toString() {
-        return "AuditResponse [statusCode=" + statusCode + ", statusMessage=" + statusMessage + "]";
+        return "AuditResponse [_statusCode=" + _statusCode + ", _statusMessage=" + _statusMessage + "]";
     }
-
 }

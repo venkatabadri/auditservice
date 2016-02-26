@@ -45,37 +45,36 @@ public class AuditServiceImpl implements AuditService {
      * @throws AuditException
      */
     @Override
-    public AuditResponse insertAuditDocument(Audit audit) throws AuditException {
+    public AuditResponse insertAuditDocument(Audit audit) {
 
         AuditResponse auditResponse = null;
         if (!AuditUtils.verifyAudit(audit)) {
 
-            LOGGER.info("Executing  insertAuditDocument method ...");
-            LOGGER.info("The specified Storage Type  is .. " + storageType);
-            
             try {
                 if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
                     AuditUtils.writeToFile(location, audit.toString());
                     auditResponse = new AuditResponse();
-                    auditResponse.setStatusCode("200");
-                    auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+                    auditResponse.set_statusCode("200");
+                    auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+
                     LOGGER.info("Audit data stored in a file");
 
                 } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
                     auditResponse = auditDao.insertAuditDocument(audit);
-                    LOGGER.info("Audit data stored in a Mongo DB");
 
+                    LOGGER.info("Audit data stored in a Mongo DB");
                 }
 
             } catch (Exception e) {
-                LOGGER.info(e.getMessage(), e);
+                auditResponse = new AuditResponse();
+                auditResponse.set_statusCode("500");
+                auditResponse.set_statusMessage(e.getMessage());
             }
         } else {
             auditResponse = new AuditResponse();
-            auditResponse.setStatusCode("500");
-            auditResponse.setStatusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
+            auditResponse.set_statusCode("422");
+            auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
             LOGGER.info("Insufficient input data for auditing. ...");
-            LOGGER.info(auditResponse.toString());
         }
 
         return auditResponse;

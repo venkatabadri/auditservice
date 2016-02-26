@@ -39,25 +39,25 @@ public class AuditServiceTest {
     public void insertAuditDocumentTest() throws AuditException {
 
         AuditResponse auditResponse = auditService.insertAuditDocument(createAuditObject());
-        assertTrue("200".equals(auditResponse.getStatusCode()));
-        assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
+        assertTrue("200".equals(auditResponse.get_statusCode()));
+        assertTrue(auditResponse.get_statusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
 
     }
-    
+
     @Test
     public void verifyAuditDocumentTest() throws AuditException {
         Audit audit = createAuditObject();
         audit.setCompanyId("");
         AuditResponse auditResponse = auditService.insertAuditDocument(audit);
-        assertTrue("500".equals(auditResponse.getStatusCode()));
-        assertTrue(auditResponse.getStatusMessage().equals(ServiceConstants.AUDIT_FIELDVALIDATION_MSG));
+        assertTrue("422".equals(auditResponse.get_statusCode()));
+        assertTrue(auditResponse.get_statusMessage().equals(ServiceConstants.AUDIT_FIELDVALIDATION_MSG));
 
     }
 
     private Audit createAuditObject() {
 
         Audit audit = new Audit();
-        
+
         audit.setAuditTrailId("AT456");
         audit.setEmployeeId("123456");
         audit.setCompanyId("PSl1");
@@ -77,7 +77,8 @@ public class AuditServiceTest {
         audit.setMethod("PUT");
         audit.setStatusCode("200");
         audit.setErrorCode("0");
-        audit.setRequest("{ empId: 'PSL007',empName: 'Nagu',age: '30',salary: '12000',designation: 'Engineer',manager: 'Jhon',location: 'Hyderabad'}");
+        audit.setRequest(
+                "{ empId: 'PSL007',empName: 'Nagu',age: '30',salary: '12000',designation: 'Engineer',manager: 'Jhon',location: 'Hyderabad'}");
         audit.setResponse("{statuscode: '0',statusdescription: ' Record Inserted Successfully ',data: []}");
 
         return audit;
