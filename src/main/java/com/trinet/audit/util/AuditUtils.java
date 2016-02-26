@@ -16,12 +16,12 @@ import com.trinet.audit.entity.Audit;
  * @author laxmi_pabbaraju
  * 
  */
-public class FileUtils {
+public class AuditUtils {
 
     /* Instance of Logger Factory */
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditUtils.class);
 
-    private FileUtils() {
+    private AuditUtils() {
         super();
     }
 
@@ -49,7 +49,7 @@ public class FileUtils {
         }
     }
 
-    public static  boolean verifyAudit(Audit audit) {
+    public static boolean verifyAudit(Audit audit) {
         if (audit != null) {
             return StringUtils.isEmpty(audit.getCompanyId()) || StringUtils.isEmpty(audit.getEmployeeId());
         }

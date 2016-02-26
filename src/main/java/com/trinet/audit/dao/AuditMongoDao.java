@@ -14,10 +14,10 @@ import com.trinet.audit.util.ServiceConstants;
  * DAO Implementer class for auditDao.
  */
 @Repository
-public class AuditMongoDAO implements AuditDAO {
+public class AuditMongoDao implements AuditDao {
 
     /* LoggerFactory instance */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuditMongoDAO.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuditMongoDao.class);
 
     /* Repository for audit */
     @Autowired

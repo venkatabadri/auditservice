@@ -7,7 +7,7 @@ import com.trinet.audit.response.AuditResponse;
 /**
  * @author laxmi_pabbaraju An interface used by AuditService
  */
-public interface AuditDAO {
+public interface AuditDao {
 
     /**
      * saving audit details

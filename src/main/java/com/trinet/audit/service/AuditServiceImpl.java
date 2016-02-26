@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.trinet.audit.dao.AuditDAO;
+import com.trinet.audit.dao.AuditDao;
 import com.trinet.audit.entity.Audit;
 import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditResponse;
-import com.trinet.audit.util.FileUtils;
+import com.trinet.audit.util.AuditUtils;
 import com.trinet.audit.util.ServiceConstants;
 
 /**
@@ -26,7 +26,7 @@ public class AuditServiceImpl implements AuditService {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditServiceImpl.class);
 
     /* The audit dao */
-    private AuditDAO auditDAO;
+    private AuditDao auditDao;
 
     @Value("${audit.appender}")
     private String storageType;
@@ -35,8 +35,8 @@ public class AuditServiceImpl implements AuditService {
     private String location;
 
     @Autowired
-    public void setAuditDao(AuditDAO auditDAO) {
-        this.auditDAO = auditDAO;
+    public void setAuditDao(AuditDao auditDao) {
+        this.auditDao = auditDao;
     }
 
     /**
@@ -48,21 +48,21 @@ public class AuditServiceImpl implements AuditService {
     public AuditResponse insertAuditDocument(Audit audit) throws AuditException {
 
         AuditResponse auditResponse = null;
-        if (!FileUtils.verifyAudit(audit)) {
+        if (!AuditUtils.verifyAudit(audit)) {
 
             LOGGER.info("Executing  insertAuditDocument method ...");
             LOGGER.info("The specified Storage Type  is .. " + storageType);
             
             try {
                 if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
-                    FileUtils.writeToFile(location, audit.toString());
+                    AuditUtils.writeToFile(location, audit.toString());
                     auditResponse = new AuditResponse();
                     auditResponse.setStatusCode("200");
                     auditResponse.setStatusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                     LOGGER.info("Audit data stored in a file");
 
                 } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
-                    auditResponse = auditDAO.insertAuditDocument(audit);
+                    auditResponse = auditDao.insertAuditDocument(audit);
                     LOGGER.info("Audit data stored in a Mongo DB");
 
                 }
