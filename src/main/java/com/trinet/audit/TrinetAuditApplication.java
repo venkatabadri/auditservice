@@ -17,14 +17,14 @@ import org.springframework.context.annotation.ImportResource;
 @Configuration
 @ComponentScan("com.trinet.audit")
 @EnableAutoConfiguration
-@ImportResource("trinet_audit.xml")
+@ImportResource("trinet-audit.xml")
 public class TrinetAuditApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrinetAuditApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(TrinetAuditApplication.class, args);
-        LOGGER.info("Welcome to Spring boot for AuditService..");
+        LOGGER.info("Welcome to Audit Service..");
     }
 
 }

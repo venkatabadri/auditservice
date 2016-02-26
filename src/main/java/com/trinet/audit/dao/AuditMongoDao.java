@@ -1,7 +1,5 @@
 package com.trinet.audit.dao;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +13,6 @@ import com.trinet.audit.util.ServiceConstants;
  */
 @Repository
 public class AuditMongoDao implements AuditDao {
-
-    /* LoggerFactory instance */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AuditMongoDao.class);
 
     /* Repository for audit */
     @Autowired
@@ -35,6 +30,7 @@ public class AuditMongoDao implements AuditDao {
     public AuditResponse insertAuditDocument(Audit audit) {
         audiMomgotRepository.save(audit);
         AuditResponse auditResponse = new AuditResponse();
+        auditResponse.set_auditid(audit.getAuditId());
         auditResponse.set_statusCode("200");
         auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
         return auditResponse;

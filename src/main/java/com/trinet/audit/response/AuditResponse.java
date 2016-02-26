@@ -12,6 +12,9 @@ public class AuditResponse {
     /* The status message of response data */
     private String _statusMessage;
 
+    /* Audit Id will be generate if caller dosn't provide it */
+    private String _auditid;
+
     /* Get the status code of response */
     public String get_statusCode() {
         return _statusCode;
@@ -32,8 +35,20 @@ public class AuditResponse {
         this._statusMessage = _statusMessage;
     }
 
+    /* Get the inserted auditId */
+    public String get_auditid() {
+        return _auditid;
+    }
+
+    /* Set the auditId of response */
+    public void set_auditid(String _auditid) {
+        this._auditid = _auditid;
+    }
+
     @Override
     public String toString() {
-        return "AuditResponse [_statusCode=" + _statusCode + ", _statusMessage=" + _statusMessage + "]";
+        return "AuditResponse [_statusCode=" + _statusCode + ", _statusMessage=" + _statusMessage + ", _auditid="
+                + _auditid + "]";
     }
+    
 }

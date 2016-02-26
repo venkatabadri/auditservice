@@ -15,13 +15,14 @@ public class Audit implements Serializable {
 
     /** the unique id */
     @Id
+    private String _id;
     private String auditId;
     private String auditTrailId;
     private String employeeId;
     private String companyId;
     private String proxyEmployeeId;
     private String proxyCompanyId;
-    private long timeStamp;
+    private String timeStamp;
     private String userIP;
     private String browserInfo;
     private String osInfo;
@@ -37,19 +38,6 @@ public class Audit implements Serializable {
     private String errorCode;
     private String request;
     private String response;
-    
-    
-
-    @Override
-    public String toString() {
-        return "Audit [auditId=" + auditId + " ||  auditTrailId=" + auditTrailId + " ||  employeeId=" + employeeId
-                + " ||  companyId=" + companyId + " ||  proxyEmployeeId=" + proxyEmployeeId + " ||  proxyCompanyId="
-                + proxyCompanyId + " ||  timeStamp=" + timeStamp + " ||  userIP=" + userIP + " ||  browserInfo=" + browserInfo
-                + " ||  osInfo=" + osInfo + " ||  deviceInfo=" + deviceInfo + " ||  environment=" + environment + " ||  serverIP="
-                + serverIP + " ||  application=" + application + " ||  feature=" + feature + " ||  resource=" + resource
-                + " ||  bizEvent=" + bizEvent + " ||  method=" + method + " ||  statusCode=" + statusCode + " ||  errorCode="
-                + errorCode + " ||  request=" + request + " ||  response=" + response + "]";
-    }
 
     public String getAuditId() {
         return auditId;
@@ -99,11 +87,11 @@ public class Audit implements Serializable {
         this.proxyCompanyId = proxyCompanyId;
     }
 
-    public long getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -225,6 +213,14 @@ public class Audit implements Serializable {
 
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
 }

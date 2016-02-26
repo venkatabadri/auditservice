@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.trinet.audit.TrinetAuditApplication;
 import com.trinet.audit.entity.Audit;
-import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.ServiceConstants;
 
@@ -36,34 +35,33 @@ public class AuditServiceTest {
     }
 
     @Test
-    public void insertAuditDocumentTest() throws AuditException {
+    public void insertAuditDocumentTest() {
 
         AuditResponse auditResponse = auditService.insertAuditDocument(createAuditObject());
         assertTrue("200".equals(auditResponse.get_statusCode()));
         assertTrue(auditResponse.get_statusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
-
     }
 
     @Test
-    public void verifyAuditDocumentTest() throws AuditException {
+    public void verifyAuditDocumentTest() {
         Audit audit = createAuditObject();
         audit.setCompanyId("");
+        audit.setAuditId("987654321");
         AuditResponse auditResponse = auditService.insertAuditDocument(audit);
-        assertTrue("422".equals(auditResponse.get_statusCode()));
+        assertTrue("400".equals(auditResponse.get_statusCode()));
         assertTrue(auditResponse.get_statusMessage().equals(ServiceConstants.AUDIT_FIELDVALIDATION_MSG));
-
     }
 
     private Audit createAuditObject() {
 
         Audit audit = new Audit();
 
+        audit.setAuditId("");
         audit.setAuditTrailId("AT456");
         audit.setEmployeeId("123456");
         audit.setCompanyId("PSl1");
         audit.setProxyEmployeeId("1234");
         audit.setProxyCompanyId("PSLHYD");
-        audit.setTimeStamp(System.currentTimeMillis());
         audit.setUserIP("127.0.0.1");
         audit.setBrowserInfo("ChromBrowser");
         audit.setOsInfo("Windows7");

@@ -1,5 +1,6 @@
 package com.trinet.audit.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,34 +49,43 @@ public class AuditServiceImpl implements AuditService {
     public AuditResponse insertAuditDocument(Audit audit) {
 
         AuditResponse auditResponse = null;
-        if (!AuditUtils.verifyAudit(audit)) {
 
-            try {
-                if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
-                    AuditUtils.writeToFile(location, audit.toString());
-                    auditResponse = new AuditResponse();
-                    auditResponse.set_statusCode("200");
-                    auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
-
-                    LOGGER.info("Audit data stored in a file");
-
-                } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
-                    auditResponse = auditDao.insertAuditDocument(audit);
-
-                    LOGGER.info("Audit data stored in a Mongo DB");
-                }
-
-            } catch (Exception e) {
-                auditResponse = new AuditResponse();
-                auditResponse.set_statusCode("500");
-                auditResponse.set_statusMessage(e.getMessage());
-            }
-        } else {
-            auditResponse = new AuditResponse();
-            auditResponse.set_statusCode("422");
-            auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
-            LOGGER.info("Insufficient input data for auditing. ...");
+        if (StringUtils.isEmpty(audit.getAuditId())) {
+            audit.setAuditId(java.util.UUID.randomUUID().toString());
         }
+        audit.setTimeStamp(AuditUtils.getISO8601StringForDate());
+        try {
+            if (storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
+                AuditUtils.writeToFile(location, audit);
+                auditResponse = new AuditResponse();
+                auditResponse.set_auditid(audit.getAuditId());
+                auditResponse.set_statusCode("200");
+                auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+
+                LOGGER.info("Audit data stored in a file");
+
+            } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
+                auditResponse = auditDao.insertAuditDocument(audit);
+
+                LOGGER.info("Audit data stored in a Mongo DB");
+            }
+            if (AuditUtils.verifyAudit(audit)) {
+                auditResponse = new AuditResponse();
+                auditResponse.set_auditid(audit.getAuditId());
+                auditResponse.set_statusCode("400");
+                auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
+
+                LOGGER.info("Insufficient input data for auditing. ...");
+            }
+        } catch (Exception e) {
+            auditResponse = new AuditResponse();
+            auditResponse.set_auditid(audit.getAuditId());
+            auditResponse.set_statusCode("500");
+            auditResponse.set_statusMessage(e.getMessage());
+            LOGGER.info(e.toString(),e);
+        }
+
+        LOGGER.info(auditResponse.toString());
 
         return auditResponse;
     }
