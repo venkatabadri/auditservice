@@ -11,6 +11,6 @@ import com.trinet.audit.response.AuditResponse;
  */
 public interface AuditService {
 
-    public AuditResponse insertAuditDocument(Audit audit);
+     AuditResponse insertAuditDocument(Audit audit);
 
 }

@@ -1,11 +1,12 @@
 package com.trinet.audit.service;
 
-import org.apache.commons.lang3.StringUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.trinet.audit.dao.AuditDao;
 import com.trinet.audit.entity.Audit;
@@ -13,6 +14,7 @@ import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.AuditUtils;
 import com.trinet.audit.util.ServiceConstants;
+
 
 /**
  * Audit service Implementation
@@ -34,6 +36,9 @@ public class AuditServiceImpl implements AuditService {
 
     @Value("${audit.appender.file.location}")
     private String location;
+    
+    @Value("${spring.data.mongodb.host}")
+    private String mongodetails;
 
     @Autowired
     public void setAuditDao(AuditDao auditDao) {
@@ -48,7 +53,9 @@ public class AuditServiceImpl implements AuditService {
     @Override
     public AuditResponse insertAuditDocument(Audit audit) {
 
-        AuditResponse auditResponse = null;
+        AuditResponse auditResponse = null;    
+       
+        
 
         if (StringUtils.isEmpty(audit.getAuditId())) {
             audit.setAuditId(java.util.UUID.randomUUID().toString());
@@ -65,6 +72,7 @@ public class AuditServiceImpl implements AuditService {
                 LOGGER.info("Audit data stored in a file");
 
             } else if (storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
+                LOGGER.info("insideaudit mongodetails"+mongodetails);
                 auditResponse = auditDao.insertAuditDocument(audit);
 
                 LOGGER.info("Audit data stored in a Mongo DB");
@@ -85,7 +93,7 @@ public class AuditServiceImpl implements AuditService {
             LOGGER.info(e.toString(),e);
         }
 
-        LOGGER.info(auditResponse.toString());
+       
 
         return auditResponse;
     }

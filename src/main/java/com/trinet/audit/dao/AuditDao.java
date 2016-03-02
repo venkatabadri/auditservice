@@ -14,5 +14,5 @@ public interface AuditDao {
      * @param audit
      * @return
      */
-    public AuditResponse insertAuditDocument(Audit audit);
+     AuditResponse insertAuditDocument(Audit audit);
 }
