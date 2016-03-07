@@ -31,7 +31,7 @@ public class AuditMongoDao implements AuditDao {
         audiMomgotRepository.save(audit);
         AuditResponse auditResponse = new AuditResponse();
         auditResponse.set_auditid(audit.getAuditId());
-        auditResponse.set_statusCode("200");
+        auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_OK_CODE);
         auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
         return auditResponse;
     }

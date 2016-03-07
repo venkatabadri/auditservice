@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.trinet.audit.dao.AuditDao;
@@ -70,8 +71,8 @@ public class AuditServiceImpl implements AuditService {
             mongodetails = (String) properties.getProperty("spring.data.mongodb.host");
             LOGGER.info("storageType :  " + storageType + "Location ::" + location);
 
-        } catch (FileNotFoundException e) {
-            LOGGER.info(e.getMessage());
+        } catch (FileNotFoundException ex) {
+            LOGGER.info(ex.toString(), ex);
         }
         LOGGER.info("Storage Type ::" + storageType);
         if (AuditUtils.isStringEmpty(audit.getAuditId())) {
@@ -83,7 +84,7 @@ public class AuditServiceImpl implements AuditService {
                 AuditUtils.writeToFile(location, audit);
                 auditResponse = new AuditResponse();
                 auditResponse.set_auditid(audit.getAuditId());
-                auditResponse.set_statusCode("200");
+                auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_OK_CODE);
                 auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
                 LOGGER.info("Audit data stored in a file");
 
@@ -96,7 +97,7 @@ public class AuditServiceImpl implements AuditService {
             if (AuditUtils.verifyAudit(audit)) {
                 auditResponse = new AuditResponse();
                 auditResponse.set_auditid(audit.getAuditId());
-                auditResponse.set_statusCode("400");
+                auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_FORBIDDEN_CODE);
                 auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
 
                 LOGGER.info("Insufficient input data for auditing. ...");
@@ -104,7 +105,7 @@ public class AuditServiceImpl implements AuditService {
         } catch (Exception e) {
             auditResponse = new AuditResponse();
             auditResponse.set_auditid(audit.getAuditId());
-            auditResponse.set_statusCode("500");
+            auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
             auditResponse.set_statusMessage(e.getMessage());
             LOGGER.info(e.toString(), e);
         }

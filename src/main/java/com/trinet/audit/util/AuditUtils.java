@@ -104,8 +104,8 @@ public class AuditUtils {
                 props = new java.util.Properties();
                 props.load(in);
             }
-        } catch (IOException e) {
-            throw new FileNotFoundException("property file '" + sConfigFile + "' not found in the classpath");
+        } catch (IOException ex) {
+            LOGGER.info(ex.toString(), ex);
         }
         return props;
     }
@@ -125,13 +125,13 @@ public class AuditUtils {
         if (value != null) {
             props = new Properties();
             sConfigFilePath = value + "\\" + sConfigFilePath;
-            System.out.println(sConfigFilePath);
+           
             try {
 
                 fis = new FileInputStream(new File(sConfigFilePath));
             } catch (FileNotFoundException e) {
               
-                e.printStackTrace();
+                LOGGER.info(e.toString(), e);
             }
         }
         if (fis == null) {
@@ -139,8 +139,9 @@ public class AuditUtils {
         }
         try {
             props.load(fis);
-        } catch (IOException e1) {
-            throw new FileNotFoundException("property file '" + sConfigFilePath + "' not found in the classpath");
+        } catch (IOException ex) {
+            LOGGER.info(ex.toString(), ex);
+           
         }
 
         return props;
