@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.trinet.audit.dao.AuditDao;
 import com.trinet.audit.entity.Audit;
-import com.trinet.audit.exceptions.AuditException;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.AuditUtils;
 import com.trinet.audit.util.ServiceConstants;
@@ -55,9 +54,7 @@ public class AuditServiceImpl implements AuditService {
 
     /**
      * Inserting audit data based on the storage type either file or mongodb
-     * 
-     * @throws AuditException
-     */
+     **/
     @Override
     public AuditResponse insertAuditDocument(Audit audit) {
 
@@ -65,9 +62,9 @@ public class AuditServiceImpl implements AuditService {
         Properties properties;
         try {
             properties = AuditUtils.loadPropertiesFileFromEnv();
-            storageType = (String) properties.getProperty("audit.appender");
-            location = (String) properties.getProperty("audit.appender.file.location");
-            mongodetails = (String) properties.getProperty("spring.data.mongodb.host");
+            storageType = properties.getProperty("audit.appender");
+            location = properties.getProperty("audit.appender.file.location");
+            mongodetails = properties.getProperty("spring.data.mongodb.host");
             LOGGER.info("storageType :  " + storageType + "Location ::" + location);
 
         } catch (FileNotFoundException ex) {
@@ -79,35 +76,46 @@ public class AuditServiceImpl implements AuditService {
         }
         audit.setTimeStamp(AuditUtils.getISO8601StringForDate());
         try {
-            if (storageType != null && storageType.equals(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
+            if (storageType != null && storageType.equalsIgnoreCase(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
+                if (location.isEmpty()) {
+                    return setResopnseObject(audit, "File location is required", ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
+                }
                 AuditUtils.writeToFile(location, audit);
-                auditResponse = new AuditResponse();
-                auditResponse.set_auditid(audit.getAuditId());
-                auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_OK_CODE);
-                auditResponse.set_statusMessage(ServiceConstants.MESSAGE_RESPONSE_SUCCESS);
+                auditResponse = setResopnseObject(audit, ServiceConstants.MESSAGE_RESPONSE_SUCCESS, ServiceConstants.MESSAGE_RESPONSE_OK_CODE);
                 LOGGER.info("Audit data stored in a file");
 
-            } else if (storageType != null && storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
-                LOGGER.info("mongodetails :  " + mongodetails);
+            } else if (storageType != null && storageType.equalsIgnoreCase(ServiceConstants.STORAGE_TYPE_MONGO)) {
+                if (mongodetails.isEmpty()) {
+                    return setResopnseObject(audit, "Mongodb details are required.", ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
+                }
                 auditResponse = auditDao.insertAuditDocument(audit);
                 LOGGER.info("Audit data stored in a Mongo DB");
             }
 
             if (AuditUtils.verifyAudit(audit)) {
-                auditResponse = new AuditResponse();
-                auditResponse.set_auditid(audit.getAuditId());
-                auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_FORBIDDEN_CODE);
-                auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
+                auditResponse = setResopnseObject(audit, ServiceConstants.AUDIT_FIELDVALIDATION_MSG,ServiceConstants.MESSAGE_RESPONSE_FORBIDDEN_CODE);
                 LOGGER.info("Insufficient input data for auditing. ...");
             }
         } catch (Exception e) {
-            auditResponse = new AuditResponse();
-            auditResponse.set_auditid(audit.getAuditId());
-            auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
-            auditResponse.set_statusMessage(e.getMessage());
+            auditResponse = setResopnseObject(audit, e.getMessage(), ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
             LOGGER.info(e.toString(), e);
         }
 
+        return auditResponse;
+    }
+
+    /**
+     * creating response object in failed conditions
+     * 
+     * @param audit
+     * @param message
+     * @return
+     */
+    private AuditResponse setResopnseObject(Audit audit, String message, String code) {
+        AuditResponse auditResponse = new AuditResponse();
+        auditResponse.set_auditid(audit.getAuditId());
+        auditResponse.set_statusCode(code);
+        auditResponse.set_statusMessage(message);
         return auditResponse;
     }
 

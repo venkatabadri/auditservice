@@ -15,9 +15,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.TimeZone;
-
-//import org.codehaus.jackson.map.ObjectMapper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +26,7 @@ import com.trinet.audit.entity.Audit;
  * 
  */
 public class AuditUtils {
-    
+
     /* Instance of Logger Factory */
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditUtils.class);
 
@@ -93,6 +90,7 @@ public class AuditUtils {
 
     /**
      * Loading property file
+     * 
      * @return
      * @throws FileNotFoundException
      */
@@ -113,7 +111,8 @@ public class AuditUtils {
     }
 
     /**
-     * loading properties file  using Environment variable
+     * loading properties file using Environment variable
+     * 
      * @return
      * @throws FileNotFoundException
      */
@@ -125,15 +124,16 @@ public class AuditUtils {
         LOGGER.info("Properties files from environment variable path :: " + value);
         InputStream fis = null;
         props = new Properties();
+
         if (value != null) {
-           
+
             sConfigFilePath = value + "\\" + sConfigFilePath;
-           
+
             try {
 
                 fis = new FileInputStream(new File(sConfigFilePath));
             } catch (FileNotFoundException e) {
-              
+
                 LOGGER.info(e.toString(), e);
             }
         }
@@ -144,7 +144,7 @@ public class AuditUtils {
             props.load(fis);
         } catch (IOException ex) {
             LOGGER.info(ex.toString(), ex);
-           
+
         }
 
         return props;
