@@ -36,10 +36,19 @@ public final class ServiceConstants {
      */
     public static final String AUDIT_FIELDVALIDATION_MSG = "Insufficient input data for auditing.";
     
+    /**
+     * Response code for success
+     */
     public static final String MESSAGE_RESPONSE_OK_CODE = "200";
 
+    /**
+     *  Response code for forbidden
+     */
     public static final String MESSAGE_RESPONSE_FORBIDDEN_CODE = "400";
     
+    /**
+     *  Response code for failure
+     */
     public static final String MESSAGE_RESPONSE_FAIL_CODE = "500";
 
 

@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.trinet.audit.dao.AuditDao;
@@ -74,7 +73,7 @@ public class AuditServiceImpl implements AuditService {
         } catch (FileNotFoundException ex) {
             LOGGER.info(ex.toString(), ex);
         }
-        LOGGER.info("Storage Type ::" + storageType);
+
         if (AuditUtils.isStringEmpty(audit.getAuditId())) {
             audit.setAuditId(java.util.UUID.randomUUID().toString());
         }
@@ -89,7 +88,7 @@ public class AuditServiceImpl implements AuditService {
                 LOGGER.info("Audit data stored in a file");
 
             } else if (storageType != null && storageType.equals(ServiceConstants.STORAGE_TYPE_MONGO)) {
-                LOGGER.info("insideaudit mongodetails" + mongodetails);
+                LOGGER.info("mongodetails :  " + mongodetails);
                 auditResponse = auditDao.insertAuditDocument(audit);
                 LOGGER.info("Audit data stored in a Mongo DB");
             }
@@ -99,7 +98,6 @@ public class AuditServiceImpl implements AuditService {
                 auditResponse.set_auditid(audit.getAuditId());
                 auditResponse.set_statusCode(ServiceConstants.MESSAGE_RESPONSE_FORBIDDEN_CODE);
                 auditResponse.set_statusMessage(ServiceConstants.AUDIT_FIELDVALIDATION_MSG);
-
                 LOGGER.info("Insufficient input data for auditing. ...");
             }
         } catch (Exception e) {

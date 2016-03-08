@@ -16,10 +16,12 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import org.codehaus.jackson.map.ObjectMapper;
+//import org.codehaus.jackson.map.ObjectMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trinet.audit.entity.Audit;
 
 /**
@@ -122,8 +124,9 @@ public class AuditUtils {
         String value = System.getenv("AUDIT_CONFIG");
         LOGGER.info("Properties files from environment variable path :: " + value);
         InputStream fis = null;
+        props = new Properties();
         if (value != null) {
-            props = new Properties();
+           
             sConfigFilePath = value + "\\" + sConfigFilePath;
            
             try {
