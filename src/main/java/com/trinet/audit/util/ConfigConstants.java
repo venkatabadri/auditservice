@@ -19,6 +19,8 @@ public class ConfigConstants {
     public static final String AUDIT_MONGO_HOST = "spring.data.mongodb.host";
     /** Audit properties file name. */
     public static final String CONFIG_AUDIT_PROERTY_FILE = "application-audit.properties";
+    /**  Audit file for environment variable */
+    public static final String  CONFIG_AUDIT_PROERTY_ENV = "AUDIT_CONFIG";
     
     /**
      * Private constructor
