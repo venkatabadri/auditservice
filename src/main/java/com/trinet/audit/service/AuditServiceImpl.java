@@ -13,6 +13,7 @@ import com.trinet.audit.dao.AuditDao;
 import com.trinet.audit.entity.Audit;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.AuditUtils;
+import com.trinet.audit.util.ConfigConstants;
 import com.trinet.audit.util.ServiceConstants;
 
 /**
@@ -29,13 +30,13 @@ public class AuditServiceImpl implements AuditService {
     /* The audit dao */
     private AuditDao auditDao;
 
-    @Value("${audit.appender}")
+    //@Value("${audit.appender}")
     private String storageType;
 
-    @Value("${audit.appender.file.location}")
+    //@Value("${audit.appender.file.location}")
     private String location;
 
-    @Value("${spring.data.mongodb.host}")
+    //@Value("${spring.data.mongodb.host}")
     private String mongodetails;
 
     @Autowired
@@ -61,9 +62,9 @@ public class AuditServiceImpl implements AuditService {
         Properties properties;
         try {
             properties = AuditUtils.loadPropertiesFileFromEnv();
-            storageType = properties.getProperty("audit.appender");
-            location = properties.getProperty("audit.appender.file.location");
-            mongodetails = properties.getProperty("spring.data.mongodb.host");
+            storageType = properties.getProperty(ConfigConstants.AUDIT_APPENDER);
+            location = properties.getProperty(ConfigConstants.AUDIT_APPENDER_FILE_LOC);
+            mongodetails = properties.getProperty(ConfigConstants.AUDIT_MONGO_HOSt);
             LOGGER.info("storageType :  " + storageType + "Location ::" + location);
 
         } catch (FileNotFoundException ex) {
@@ -76,7 +77,7 @@ public class AuditServiceImpl implements AuditService {
         audit.setTimeStamp(AuditUtils.getISO8601StringForDate());
         try {
             if (storageType != null && storageType.equalsIgnoreCase(ServiceConstants.STORAGE_TYPE_FLATFILE)) {
-                if (location.isEmpty()) {
+                if (location == null || location.isEmpty()) {
                     return setResopnseObject(audit, "File location is required", ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
                 }
                 AuditUtils.writeToFile(location, audit);

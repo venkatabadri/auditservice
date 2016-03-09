@@ -110,7 +110,7 @@ public class AuditUtils {
     }
 
     /**
-     * loading properties file using Environment variable
+     * loading properties file using vm argument
      * 
      * @return
      * @throws FileNotFoundException
@@ -119,8 +119,8 @@ public class AuditUtils {
 
         Properties props = null;
         String sConfigFilePath = "application-audit.properties";
-        String value = System.getenv("AUDIT_CONFIG");
-        LOGGER.info("Properties files from environment variable path :: " + value);
+        String value = System.getProperty(ConfigConstants.AUDIT_CONFIG_FILE_LOC);
+        LOGGER.info("Properties files from vm argument path :: {}", value);
         InputStream fis = null;
         props = new Properties();
 
