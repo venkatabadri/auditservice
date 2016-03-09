@@ -32,7 +32,7 @@ public final class ServiceConstants {
     public static final String AUDIT_FILENAME = "auditlog.txt";
     
     /**
-     * 
+     * error message
      */
     public static final String AUDIT_FIELDVALIDATION_MSG = "Insufficient input data for auditing.";
     
@@ -50,6 +50,22 @@ public final class ServiceConstants {
      *  Response code for failure
      */
     public static final String MESSAGE_RESPONSE_FAIL_CODE = "500";
+    
+    /**
+     * The date format for auditlog timestamp format
+     */
+    public static final String DATE_FORMAT_ISO_STD = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    
+    /**
+     * The date format for auditlog date format
+     */
+    public static final String DATE_FORMAT_US = "yyyy-MM-dd";
+    
+    /**
+     * The date format for auditlog filename
+     */
+    public static final String AUDIT_LOG_FILENAME = "audit-log-";
+    
 
 
     private ServiceConstants() {

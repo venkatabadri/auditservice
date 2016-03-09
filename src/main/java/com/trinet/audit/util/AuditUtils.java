@@ -45,8 +45,8 @@ public class AuditUtils {
         ObjectMapper mapper = new ObjectMapper();
         String auditData = mapper.writeValueAsString(auditdata);
         File directory = new File(location);
-        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd");
-        String auditLogfileName = "audit-log-" + dateformater.format(new Date());
+        SimpleDateFormat dateformater = new SimpleDateFormat(ServiceConstants.DATE_FORMAT_US);
+        String auditLogfileName = ServiceConstants.AUDIT_LOG_FILENAME + dateformater.format(new Date());
         File auditFile = new File(directory, auditLogfileName + ".txt");
         FileWriter fw = new FileWriter(auditFile, true);
         fw.write(auditData + "\n");
@@ -71,11 +71,12 @@ public class AuditUtils {
      * Getting Time stamp in ISO8601 format
      */
     public static String getISO8601StringForDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        DateFormat dateFormat = new SimpleDateFormat(ServiceConstants.DATE_FORMAT_ISO_STD, Locale.US);
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return dateFormat.format(new Date());
     }
 
+   
     public static boolean isStringEmpty(String strValue) {
         if (strValue != null && strValue.length() == 0) {
             return true;
@@ -104,7 +105,7 @@ public class AuditUtils {
                 props.load(in);
             }
         } catch (IOException ex) {
-            LOGGER.info(ex.toString(), ex);
+            LOGGER.error(ex.toString(), ex);
         }
         return props;
     }
@@ -118,7 +119,7 @@ public class AuditUtils {
     public static Properties loadPropertiesFileFromEnv() throws FileNotFoundException {
 
         Properties props = null;
-        String sConfigFilePath = "application-audit.properties";
+        String sConfigFilePath = ConfigConstants.CONFIG_AUDIT_PROERTY_FILE;
         String value = System.getProperty(ConfigConstants.AUDIT_CONFIG_FILE_LOC);
         LOGGER.info("Properties files from vm argument path :: {}", value);
         InputStream fis = null;
@@ -133,7 +134,7 @@ public class AuditUtils {
                 fis = new FileInputStream(new File(sConfigFilePath));
             } catch (FileNotFoundException e) {
 
-                LOGGER.info(e.toString(), e);
+                LOGGER.error(e.toString(), e);
             }
         }
         if (fis == null) {
@@ -142,7 +143,7 @@ public class AuditUtils {
         try {
             props.load(fis);
         } catch (IOException ex) {
-            LOGGER.info(ex.toString(), ex);
+            LOGGER.error(ex.toString(), ex);
 
         }
 

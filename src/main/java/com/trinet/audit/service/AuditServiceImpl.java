@@ -44,10 +44,18 @@ public class AuditServiceImpl implements AuditService {
         this.auditDao = auditDao;
     }
 
+   /**
+    * Setting Storage type
+    * @param storageType
+    */
     public void setStorageType(String storageType) {
         this.storageType = storageType;
     }
 
+    /**
+     * set Location Type
+     * @param location
+     */
     public void setLocation(String location) {
         this.location = location;
     }
@@ -113,7 +121,9 @@ public class AuditServiceImpl implements AuditService {
      */
     private AuditResponse setResopnseObject(Audit audit, String message, String code) {
         AuditResponse auditResponse = new AuditResponse();
-        auditResponse.set_auditid(audit.getAuditId());
+        if(audit.getAuditId()!=null){
+            auditResponse.set_auditid(audit.getAuditId());
+        }
         auditResponse.set_statusCode(code);
         auditResponse.set_statusMessage(message);
         return auditResponse;
