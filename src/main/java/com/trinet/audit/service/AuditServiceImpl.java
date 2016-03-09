@@ -17,7 +17,6 @@ import com.trinet.audit.util.ServiceConstants;
 
 /**
  * Audit service Implementation
- * 
  * @author laxmi_pabbaraju
  *
  */
@@ -105,10 +104,10 @@ public class AuditServiceImpl implements AuditService {
     }
 
     /**
-     * creating response object in failed conditions
-     * 
+     * creating Audit response using code,and error message
      * @param audit
      * @param message
+     * @param code
      * @return
      */
     private AuditResponse setResopnseObject(Audit audit, String message, String code) {

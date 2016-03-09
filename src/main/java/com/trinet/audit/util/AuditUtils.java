@@ -17,7 +17,6 @@ import java.util.Properties;
 import java.util.TimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trinet.audit.entity.Audit;
 
