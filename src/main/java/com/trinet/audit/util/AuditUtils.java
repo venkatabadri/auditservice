@@ -15,14 +15,18 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.TimeZone;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trinet.audit.entity.Audit;
 
 /**
- * @author laxmi_pabbaraju
+ * Audit service Util
  * 
+ * @author laxmi_pabbaraju
+ *
  */
 public class AuditUtils {
 
@@ -76,7 +80,11 @@ public class AuditUtils {
         return dateFormat.format(new Date());
     }
 
-   
+    /**
+     * checking the string value
+     * @param strValue
+     * @return
+     */
     public static boolean isStringEmpty(String strValue) {
         if (strValue != null && strValue.length() == 0) {
             return true;
@@ -84,39 +92,14 @@ public class AuditUtils {
         return false;
     }
 
-    public static boolean isStringEmptyByEquals(String strValue) {
-        return "".equals(strValue);
-    }
-
-    /**
-     * Loading property file
-     * 
-     * @return
-     * @throws FileNotFoundException
-     */
-    public static Properties loadPropertiesFile() throws FileNotFoundException {
-
-        String sConfigFile = "application-audit.properties";
-        Properties props = null;
-        try {
-            InputStream in = ClassLoader.getSystemResourceAsStream(sConfigFile);
-            if (in != null) {
-                props = new java.util.Properties();
-                props.load(in);
-            }
-        } catch (IOException ex) {
-            LOGGER.error(ex.toString(), ex);
-        }
-        return props;
-    }
-
-    /**
+     /**
      * loading properties file using vm argument
      * 
      * @return
+     * @throws IOException 
      * @throws FileNotFoundException
      */
-    public static Properties loadPropertiesFileFromEnv() throws FileNotFoundException {
+    public static Properties loadPropertiesFileFromEnv()  {
 
         Properties props = null;
         String sConfigFilePath = ConfigConstants.CONFIG_AUDIT_PROERTY_FILE;
@@ -124,17 +107,14 @@ public class AuditUtils {
         LOGGER.info("Properties files from vm argument path :: {}", value);
         InputStream fis = null;
         props = new Properties();
-
         if (value != null) {
-
             sConfigFilePath = value + "\\" + sConfigFilePath;
-
             try {
 
                 fis = new FileInputStream(new File(sConfigFilePath));
             } catch (FileNotFoundException e) {
 
-                LOGGER.error(e.toString(), e);
+                LOGGER.info(e.toString(), e);
             }
         }
         if (fis == null) {
@@ -143,10 +123,9 @@ public class AuditUtils {
         try {
             props.load(fis);
         } catch (IOException ex) {
-            LOGGER.error(ex.toString(), ex);
+            LOGGER.info(ex.toString(), ex);
 
         }
-
         return props;
 
     }

@@ -15,7 +15,7 @@ public class Audit implements Serializable {
 
     /** the unique id */
     @Id
-    private String _id;
+    private String id;
     private String auditId;
     private String auditTrailId;
     private String employeeId;
@@ -215,12 +215,12 @@ public class Audit implements Serializable {
         this.response = response;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(String id) {
+        this.id = id;
     }
 
 }
