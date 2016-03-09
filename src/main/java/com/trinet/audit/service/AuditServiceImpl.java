@@ -78,6 +78,7 @@ public class AuditServiceImpl implements AuditService {
             }
             auditResponse = verifyAudit(audit);
         } catch (Exception e) {
+            audit.setAuditId(null);
             auditResponse = setResponseObject(audit, e.getMessage(), ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
             LOGGER.info(e.toString(), e);
         }
@@ -197,9 +198,7 @@ public class AuditServiceImpl implements AuditService {
      */
     private AuditResponse setResponseObject(Audit audit, String message, String code) {
         AuditResponse auditResponse = new AuditResponse();
-        if (audit.getAuditId() != null) {
-            auditResponse.set_auditid(audit.getAuditId());
-        }
+        auditResponse.set_auditid(audit.getAuditId());
         auditResponse.set_statusCode(code);
         auditResponse.set_statusMessage(message);
         return auditResponse;
