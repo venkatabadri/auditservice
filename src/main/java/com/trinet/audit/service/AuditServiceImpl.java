@@ -76,7 +76,7 @@ public class AuditServiceImpl implements AuditService {
             } else if (storageType != null && storageType.equalsIgnoreCase(ServiceConstants.STORAGE_TYPE_MONGO)) {
                 auditResponse = insertAuditLogToMongoDB(audit);
             }
-            auditResponse = verifyAudit(audit);
+            auditResponse = verifyAudit(audit,auditResponse);
         } catch (Exception e) {
             audit.setAuditId(null);
             auditResponse = setResponseObject(audit, e.getMessage(), ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
@@ -106,8 +106,7 @@ public class AuditServiceImpl implements AuditService {
      *            The {@link AuditResponse} object
      * @return The {@link AuditResponse} object
      */
-    private AuditResponse verifyAudit(Audit audit) {
-        AuditResponse auditResponse = null;
+    private AuditResponse verifyAudit(Audit audit, AuditResponse auditResponse) {
         if (AuditUtils.verifyAudit(audit)) {
             auditResponse = setResponseObject(audit, ServiceConstants.AUDIT_FIELDVALIDATION_MSG,
                     ServiceConstants.MESSAGE_RESPONSE_FORBIDDEN_CODE);
