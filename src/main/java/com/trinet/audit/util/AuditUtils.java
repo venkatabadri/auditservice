@@ -103,7 +103,8 @@ public class AuditUtils {
 
         Properties props = null;
         String sConfigFilePath = ConfigConstants.CONFIG_AUDIT_PROERTY_FILE;
-        String value = System.getenv(ConfigConstants.CONFIG_AUDIT_PROERTY_ENV);
+        //String value = System.getenv(ConfigConstants.CONFIG_AUDIT_PROERTY_ENV);
+        String value = System.getProperty(ConfigConstants.AUDIT_CONFIG_FILE_LOC);
         LOGGER.info("Properties files from vm argument path :: {}", value);
         InputStream fis = null;
         props = new Properties();

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -41,7 +40,7 @@ public class AuditServiceTest {
 
     }
 
-    @Ignore
+
     @Test
     public void insertAuditDocumentTest() {
 
@@ -50,7 +49,7 @@ public class AuditServiceTest {
         assertTrue(auditResponse.get_statusMessage().equals(ServiceConstants.MESSAGE_RESPONSE_SUCCESS));
     }
 
-    @Ignore
+ 
     @Test
     public void verifyAuditDocumentTest() {
         Audit audit = createAuditObject();
@@ -62,7 +61,7 @@ public class AuditServiceTest {
 
     }
 
-    @Ignore
+
     @Test
     public void insertAuditToMongoDBFailTest() {
         Audit audit = createAuditObject();
