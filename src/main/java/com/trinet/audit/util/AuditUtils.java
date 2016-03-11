@@ -4,16 +4,12 @@
 package com.trinet.audit.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import org.slf4j.Logger;
@@ -86,49 +82,11 @@ public class AuditUtils {
      * @return
      */
     public static boolean isStringEmpty(String strValue) {
-        if (strValue != null && strValue.length() == 0) {
+        if (strValue == null || strValue.isEmpty()) {
             return true;
         }
         return false;
     }
 
-     /**
-     * loading properties file using vm argument
-     * 
-     * @return
-     * @throws IOException 
-     * @throws FileNotFoundException
-     */
-    public static Properties loadPropertiesFileFromEnv()  {
-
-        Properties props = null;
-        String sConfigFilePath = ConfigConstants.CONFIG_AUDIT_PROERTY_FILE;
-        //String value = System.getenv(ConfigConstants.CONFIG_AUDIT_PROERTY_ENV);
-        String value = System.getProperty(ConfigConstants.AUDIT_CONFIG_FILE_LOC);
-        LOGGER.info("Properties files from vm argument path :: {}", value);
-        InputStream fis = null;
-        props = new Properties();
-        if (value != null) {
-            sConfigFilePath = value + "\\" + sConfigFilePath;
-            try {
-
-                fis = new FileInputStream(new File(sConfigFilePath));
-            } catch (FileNotFoundException e) {
-
-                LOGGER.info(e.toString(), e);
-            }
-        }
-        if (fis == null) {
-            fis = ClassLoader.getSystemResourceAsStream(sConfigFilePath);
-        }
-        try {
-            props.load(fis);
-        } catch (IOException ex) {
-            LOGGER.info(ex.toString(), ex);
-
-        }
-        return props;
-
-    }
 
 }

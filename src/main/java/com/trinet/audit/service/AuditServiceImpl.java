@@ -1,19 +1,17 @@
 package com.trinet.audit.service;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.trinet.audit.dao.AuditDao;
 import com.trinet.audit.entity.Audit;
 import com.trinet.audit.response.AuditResponse;
 import com.trinet.audit.util.AuditUtils;
-import com.trinet.audit.util.ConfigConstants;
 import com.trinet.audit.util.ServiceConstants;
 
 /**
@@ -31,13 +29,13 @@ public class AuditServiceImpl implements AuditService {
     /* The audit dao */
     private AuditDao auditDao;
 
-    // @Value("${audit.appender}")
+    @Value("${audit.appender}")
     private String storageType;
 
-    // @Value("${audit.appender.file.location}")
+    @Value("${audit.appender.file.location}")
     private String location;
 
-    // @Value("${spring.data.mongodb.host}")
+    @Value("${spring.data.mongodb.host}")
     private String mongodetails;
 
     @Autowired
@@ -76,7 +74,9 @@ public class AuditServiceImpl implements AuditService {
             } else if (storageType != null && storageType.equalsIgnoreCase(ServiceConstants.STORAGE_TYPE_MONGO)) {
                 auditResponse = insertAuditLogToMongoDB(audit);
             }
-            auditResponse = verifyAudit(audit,auditResponse);
+
+            auditResponse = verifyAudit(audit, auditResponse);
+
         } catch (Exception e) {
             audit.setAuditId(null);
             auditResponse = setResponseObject(audit, e.getMessage(), ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
@@ -92,7 +92,6 @@ public class AuditServiceImpl implements AuditService {
      *            The {@link Audit} object.
      */
     private void setAuditData(Audit audit) {
-        setAuditProperties();
         setAuditId(audit);
         audit.setTimeStamp(AuditUtils.getISO8601StringForDate());
     }
@@ -157,32 +156,15 @@ public class AuditServiceImpl implements AuditService {
     private AuditResponse insertAuditLogs(Audit audit) throws IOException {
         AuditResponse auditResponse;
         if (location == null || location.isEmpty()) {
-            return setResponseObject(audit, "File location is required",
-                    ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
+            return setResponseObject(audit, "File location is required", ServiceConstants.MESSAGE_RESPONSE_FAIL_CODE);
         }
         AuditUtils.writeToFile(location, audit);
         auditResponse = setResponseObject(audit, ServiceConstants.MESSAGE_RESPONSE_SUCCESS,
                 ServiceConstants.MESSAGE_RESPONSE_OK_CODE);
-        LOGGER.info("Audit data stored in a file");
+        LOGGER.info("Audit data stored in a file" + auditResponse);
         return auditResponse;
     }
-
-    /**
-     * Sets the {@link Audit} properties.
-     */
-    private void setAuditProperties() {
-        Properties properties;
-        try {
-            properties = AuditUtils.loadPropertiesFileFromEnv();
-            storageType = properties.getProperty(ConfigConstants.AUDIT_APPENDER);
-            location = properties.getProperty(ConfigConstants.AUDIT_APPENDER_FILE_LOC);
-            mongodetails = properties.getProperty(ConfigConstants.AUDIT_MONGO_HOST);
-            LOGGER.info("storageType :  " + storageType + "Location ::" + location);
-
-        } catch (Exception e) {
-            LOGGER.info(e.toString(), e);
-        }
-    }
+   
 
     /**
      * Creating Audit response using code,and error message
@@ -200,6 +182,7 @@ public class AuditServiceImpl implements AuditService {
         auditResponse.set_auditid(audit.getAuditId());
         auditResponse.set_statusCode(code);
         auditResponse.set_statusMessage(message);
+        LOGGER.info("setResponseObject" + auditResponse);
         return auditResponse;
     }
 
